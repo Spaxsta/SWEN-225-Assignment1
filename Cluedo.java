@@ -48,6 +48,36 @@ public class Cluedo {
 			
 		}
 		
+		public void makeSuggestion() {
+			System.out.println("Suggest a character");
+			String characterGuess = sc.next();
+			System.out.println("Suggest a weapon");
+			String weaponGuess = sc.next();
+			System.out.println("Suggest a room");
+			String roomGuess = sc.next();
+			for(Player player : allPlayer) {
+				if(player.getHand().contains(characterGuess)) {
+					System.out.println(player.getCharacter + "has " + characterGuess);
+					characterGuess = null;
+				} else if(player.getHand().contains(weaponGuess)) {
+					System.out.println(player.getCharacter + "has the " + weaponGuess);
+					weaponGuess = null;
+				} else if(player.getHand().contains(roomGuess)) {
+					System.out.println(player.getCharacter + "has the " + roomGuess);
+					roomGuess = null;
+				}
+			}
+			
+			if(characterGuess == null) {
+				System.out.println("Nobody had " + characterGuess);
+			} else if(weaponGuess == null) {
+				System.out.println("Nobody had the" + weaponGuess);
+			}else if(roomGuess == null) {
+				System.out.println("Nobody had " + roomGuess);
+			}
+			
+		}
+		
 		public void gameWon(String characterGuess, String weaponGuess, String roomGuess) {
 			if(solution.get(0).equals(characterGuess) && solution.get(1).equals(weaponGuess) && solution.get(2).equals(roomGuess)) {
 				won = true;
