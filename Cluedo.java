@@ -38,44 +38,68 @@ public class Cluedo {
 		map.put(new Point(7,12), "Dining Room");
 		
 		public void makeAccusation() {
-			System.out.println("Accuse a character");
+			System.out.println("Accuse a character.");
 			String characterGuess = sc.next();
-			System.out.println("Accuse a weapon");
+			System.out.println("Accuse a weapon.");
 			String weaponGuess = sc.next();
-			System.out.println("Accuse a room");
+			System.out.println("Accuse a room.");
 			String roomGuess = sc.next();
 			gameWon(characterGuess, weaponGuess, roomGuess);
 			
 		}
 		
-		public void makeSuggestion() {
-			System.out.println("Suggest a character");
+		public void makeSuggestion(String room) {
+			System.out.println("Suggest a character.");
 			String characterGuess = sc.next();
-			System.out.println("Suggest a weapon");
+			teleportPlayer(characterGuess)
+			System.out.println("Suggest a weapon.");
 			String weaponGuess = sc.next();
-			System.out.println("Suggest a room");
-			String roomGuess = sc.next();
+			String roomGuess = room;
 			for(Player player : allPlayer) {
 				if(player.getHand().contains(characterGuess)) {
-					System.out.println(player.getCharacter + "has " + characterGuess);
+					System.out.println(player.getCharacter + "has " + characterGuess + ".");
 					characterGuess = null;
 				} else if(player.getHand().contains(weaponGuess)) {
-					System.out.println(player.getCharacter + "has the " + weaponGuess);
+					System.out.println(player.getCharacter + "has the " + weaponGuess + ".");
 					weaponGuess = null;
 				} else if(player.getHand().contains(roomGuess)) {
-					System.out.println(player.getCharacter + "has the " + roomGuess);
+					System.out.println(player.getCharacter + "has the " + roomGuess + ".");
 					roomGuess = null;
 				}
 			}
 			
 			if(characterGuess == null) {
-				System.out.println("Nobody had " + characterGuess);
+				System.out.println("Nobody had " + characterGuess + ".");
 			} else if(weaponGuess == null) {
-				System.out.println("Nobody had the" + weaponGuess);
+				System.out.println("Nobody had the" + weaponGuess + ".");
 			}else if(roomGuess == null) {
-				System.out.println("Nobody had " + roomGuess);
+				System.out.println("Nobody had " + roomGuess + ".");
 			}
 			
+		}
+		
+		public void teleportPlayer(String character) {
+			for(Player player : allPlayers) {
+				if(player.getCharacter.equals(character)) {
+					board.square[player.getPostion.y][player.getPosition.x].setHasPlayer = false;
+					player.setPosition(findTeleportSpace());
+					board.square[player.getPostion.y][player.getPosition.x].setHasPlayer = true;
+					player.setInRoom(true);
+				}
+			}
+		}
+		
+		public Point findTeleportSpace() {
+				if(board.squares[currentPlayer.getPosition().y-1][currentPlayer.getPosition().x] instanceof Room) {
+					return new Point(currentPlayer.getPosition().y-1, currentPlayer.getPosition().x);
+				}else if(board.squares[currentPlayer.getPosition().y+1][currentPlayer.getPosition().x] instanceof Room) {
+					return new Point(currentPlayer.getPosition().y+1, currentPlayer.getPosition().x);
+				}else if(board.squares[currentPlayer.getPosition().y][currentPlayer.getPosition().x+1] instanceof Room) {
+					return new Point(currentPlayer.getPosition().y, currentPlayer.getPosition().x+1);
+				}else if(board.squares[currentPlayer.getPosition().y][currentPlayer.getPosition().x-1] instanceof Room) {
+					return new Point(currentPlayer.getPosition().y, currentPlayer.getPosition().x-1);
+				}
+				return null;
 		}
 		
 		public void gameWon(String characterGuess, String weaponGuess, String roomGuess) {
